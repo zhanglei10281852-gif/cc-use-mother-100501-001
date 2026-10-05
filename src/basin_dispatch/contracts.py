@@ -3,9 +3,37 @@
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass, replace
+from datetime import date, datetime
 from hashlib import sha256
 import json
-from typing import Iterable
+from typing import Any, Iterable
+
+
+def canonical_json(payload: Any) -> str:
+    """把任意可 JSON 化的载荷序列化成稳定字符串。
+
+    - 键排序、紧凑分隔，保证字段顺序不影响摘要；
+    - 日期时间统一转 ISO 字符串，避免平台差异；
+    - 禁止隐式 str() 兜底，遇到无法表达的类型直接报错。
+    """
+
+    def _default(value: Any) -> str:
+        if isinstance(value, (datetime, date)):
+            return value.isoformat()
+        raise TypeError(f"不支持进入指纹的类型: {type(value)!r}")
+
+    return json.dumps(
+        payload,
+        ensure_ascii=False,
+        sort_keys=True,
+        separators=(",", ":"),
+        default=_default,
+    )
+
+
+def canonical_fingerprint(payload: Any) -> str:
+    """对稳定载荷计算 sha256 摘要，供幂等、冻结校验与审计使用。"""
+    return sha256(canonical_json(payload).encode("utf-8")).hexdigest()
 
 
 @dataclass(frozen=True, slots=True)
@@ -30,8 +58,7 @@ class DispatchScenario:
 
     def fingerprint(self) -> str:
         """生成稳定摘要，供幂等和审计使用。"""
-        payload = json.dumps(asdict(self), ensure_ascii=False, sort_keys=True, separators=(",", ":"))
-        return sha256(payload.encode("utf-8")).hexdigest()
+        return canonical_fingerprint(asdict(self))
 
 
 def unique_by_identity(items: Iterable[DispatchScenario]) -> list[DispatchScenario]:

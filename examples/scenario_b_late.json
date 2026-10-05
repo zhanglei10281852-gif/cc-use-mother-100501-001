@@ -1,0 +1,47 @@
+{
+  "scenario_code": "TY-2026-002",
+  "forecast_revision": "FCST-B",
+  "horizon_hours": 24,
+  "step_hours": 6,
+  "boundary_inflows": {
+    "R1": [
+      700,
+      1100,
+      850,
+      450
+    ]
+  },
+  "reservoir_gains": {
+    "R1": [
+      150,
+      320,
+      200,
+      60
+    ]
+  },
+  "demands": {
+    "YK1": {
+      "drinking": [
+        18,
+        18,
+        18,
+        18
+      ],
+      "ecology": [
+        10,
+        10,
+        10,
+        10
+      ],
+      "production": [
+        20,
+        20,
+        20,
+        20
+      ]
+    }
+  },
+  "initial_storage": {
+    "R1": 30000
+  }
+}

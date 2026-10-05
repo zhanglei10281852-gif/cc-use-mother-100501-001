@@ -1,0 +1,90 @@
+{
+  "basin_code": "LRB",
+  "revision": "TOPO-2026-1",
+  "facilities": [
+    {
+      "code": "R1",
+      "name": "临江水库",
+      "type": "reservoir",
+      "sequence": 10,
+      "boundaries": {
+        "capacity": 50000,
+        "dead_storage": 5000,
+        "flood_storage": 20000,
+        "max_release": 1000,
+        "max_level_rate": 10000
+      }
+    },
+    {
+      "code": "RCH1",
+      "name": "库下河道",
+      "type": "reach",
+      "sequence": 20,
+      "boundaries": {
+        "max_flow": 1200
+      }
+    },
+    {
+      "code": "G1",
+      "name": "城区节制闸",
+      "type": "gate",
+      "sequence": 30,
+      "boundaries": {
+        "max_flow": 1000,
+        "min_opening": 0,
+        "max_opening": 100
+      }
+    },
+    {
+      "code": "RCH2",
+      "name": "闸下河道",
+      "type": "reach",
+      "sequence": 40,
+      "boundaries": {
+        "max_flow": 900
+      }
+    },
+    {
+      "code": "YK1",
+      "name": "城市取水口",
+      "type": "intake",
+      "sequence": 45,
+      "serves": "临江市",
+      "boundaries": {
+        "max_take": 80,
+        "min_guarantee": 15
+      }
+    },
+    {
+      "code": "RCH3",
+      "name": "出海河道",
+      "type": "reach",
+      "sequence": 50,
+      "boundaries": {
+        "max_flow": 900
+      }
+    }
+  ],
+  "edges": [
+    [
+      "R1",
+      "RCH1"
+    ],
+    [
+      "RCH1",
+      "G1"
+    ],
+    [
+      "G1",
+      "RCH2"
+    ],
+    [
+      "RCH2",
+      "YK1"
+    ],
+    [
+      "RCH2",
+      "RCH3"
+    ]
+  ]
+}

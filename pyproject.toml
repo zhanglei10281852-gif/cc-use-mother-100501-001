@@ -4,9 +4,12 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "basin-dispatch"
-version = "0.1.0"
-description = "流域联合调度与指令追溯基础领域契约"
+version = "0.2.0"
+description = "流域联合调度与指令追溯后端：冻结情景、约束校验、会商批准与事件溯源执行追溯"
 requires-python = ">=3.11"
+
+[project.scripts]
+basin-dispatch = "basin_dispatch.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
